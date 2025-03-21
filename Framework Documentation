@@ -1,0 +1,62 @@
+Abisola Afolabi-Jombo's IoT Energy Monitoring Solution - Framework Documentation
+
+1. Introduction
+XYZ Limited requires a cost-effective, real-time, and serverless AWS-native solution to monitor energy consumption in an apartment using an IoT box. This document outlines the architecture, implementation, security measures, and operational considerations for the solution.
+
+2. Solution Architecture
+The proposed architecture consists of the following AWS services:
+- AWS IoT Core: Captures real-time energy consumption data from the IoT box.
+- AWS Lambda: Processes incoming IoT data and forwards it to storage.
+- Amazon S3: Stores processed energy consumption data for analytics and long-term storage.
+- Amazon CloudWatch: Monitors Lambda executions and logs for debugging.
+- AWS IAM: Manages access control and security.
+
+Data Flow
+1. IoT box publishes energy consumption data to AWS IoT Core.
+2. IoT Rule forwards messages to AWS Lambda.
+3. AWS Lambda processes data and stores it in Amazon S3.
+4. Amazon CloudWatch logs execution details and errors.
+
+ 3. Implementation Details
+ Terraform Code
+Infrastructure as Code (IaC) is used to automate deployment:
+- AWS IoT Core topic and rule
+- Lambda function for processing data
+- IAM roles and permissions
+- S3 bucket for storage
+- CloudWatch logging
+
+ AWS Service Choices Justification
+- AWS IoT Core: Handles real-time data ingestion securely.
+- AWS Lambda: Reduces operational overhead and scales automatically.
+- Amazon S3: Low-cost storage for large datasets.
+- CloudWatch: Ensures observability and debugging capabilities.
+
+ 4. Security Measures
+- Data Encryption:
+  - TLS encryption for data in transit.
+  - S3 bucket encryption at rest using AWS-managed keys.
+- IAM Role-Based Access Control:
+  - Least privilege principle enforced.
+  - Lambda functions and IoT rules have specific permissions.
+- Monitoring & Logging:
+  - CloudWatch tracks API calls and Lambda executions.
+  - AWS IAM policies enforce access restrictions.
+
+ 5. Cost Optimization
+- Serverless Approach: AWS Lambda eliminates the need for dedicated compute resources.
+- S3 Storage Class Optimization: Uses Standard-Infrequent Access for cost efficiency.
+- Event-Driven Processing: Avoids unnecessary resource consumption.
+
+ 6. High Availability & Fault Tolerance
+- AWS IoT Core and Lambda: Provide automatic scaling and fault tolerance.
+- CloudWatch Alarms: Trigger alerts on failures.
+- Retry Mechanisms: Lambda retries failed executions.
+
+ 7. Data Batching (Bonus)
+To reduce costs and optimize performance, data can be batched before storing in S3:
+- IoT Rule with Kinesis Firehose: Buffers and compresses data before sending to S3.
+- Lambda Aggregation: Accumulates data in memory before writing to S3 in batches.
+
+ 8. Conclusion
+This solution meets the key requirements of cost-effectiveness, security, high availability, and low latency. Future enhancements can include real-time analytics using Amazon Athena or QuickSight for visualization.
